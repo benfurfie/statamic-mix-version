@@ -30,7 +30,7 @@ trait MixTrait
      * If they have, use that to build the path.
      * Otherwise, default to the theme name.
      */
-    $this->getPath();
+    $src = $this->getPath();
     /**
      * Build the path by taking the type (passed through the function)
      * and the $src (taken from above).

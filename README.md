@@ -1,0 +1,2 @@
+# statamic-mix-version
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e3dc160214e44aaba1c24bb0aa472ebe)](https://app.codacy.com/app/benfurfie/statamic-mix-version?utm_source=github.com&utm_medium=referral&utm_content=benfurfie/statamic-mix-version&utm_campaign=Badge_Grade_Settings)

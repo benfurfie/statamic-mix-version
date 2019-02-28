@@ -58,7 +58,7 @@ trait MixTrait
     {
       return $this->get('src');
     }
-    return $src = $this->get('src', Config::get('theming.theme'));
+    return $this->get('src', Config::get('theming.theme'));
   } 
 
   /**

@@ -30,11 +30,7 @@ trait MixTrait
      * If they have, use that to build the path.
      * Otherwise, default to the theme name.
      */
-    if($this->get('src')) {
-      $src = $this->get('src');
-    } else {
-      $src = $this->get('src', Config::get('theming.theme'));
-    }
+    $src = $this->getPath();
     /**
      * Build the path by taking the type (passed through the function)
      * and the $src (taken from above).
@@ -50,6 +46,20 @@ trait MixTrait
      */
     return $this->themeUrl($manifest ? $manifest : $path);
   }
+  
+  /**
+   * Check to see if the user has specificed a src param.
+   * If they have, use that to build the path. 
+   * Otherwise, default to the theme name.
+   */
+  private function getPath()
+  {
+    if($this->get('src'))
+    {
+      return $this->get('src');
+    }
+    return $this->get('src', Config::get('theming.theme'));
+  } 
 
   /**
    * Transforms the asset directory into a relative or absolute URL
@@ -85,13 +95,13 @@ trait MixTrait
    */
   private function getManifest()
   {
-      $path = root_path(
-        URL::assemble(
-          Config::get('system.filesystems.themes.root'),
-          Config::get('theming.theme'),
-          static::$manifest
-        )
-      );
-      return collect(json_decode(File::get($path), true));
+    $path = root_path(
+      URL::assemble(
+        Config::get('system.filesystems.themes.root'),
+        Config::get('theming.theme'),
+        static::$manifest
+      )
+    );
+    return collect(json_decode(File::get($path), true));
   }
 }

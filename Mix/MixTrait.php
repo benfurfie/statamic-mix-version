@@ -26,7 +26,7 @@ trait MixTrait
   public function getAssetPath($type)
   {
     /**
-     * Check to see if the user has specificed a src param.
+     * Check to see if the user has specified a src param.
      * If they have, use that to build the path.
      * Otherwise, default to the theme name.
      */
@@ -46,10 +46,10 @@ trait MixTrait
      */
     return $this->themeUrl($manifest ? $manifest : $path);
   }
-  
+
   /**
-   * Check to see if the user has specificed a src param.
-   * If they have, use that to build the path. 
+   * Check to see if the user has specified a src param.
+   * If they have, use that to build the path.
    * Otherwise, default to the theme name.
    */
   private function getPath()
@@ -59,7 +59,7 @@ trait MixTrait
       return $this->get('src');
     }
     return $this->get('src', Config::get('theming.theme'));
-  } 
+  }
 
   /**
    * Transforms the asset directory into a relative or absolute URL
@@ -70,21 +70,39 @@ trait MixTrait
    */
   private function themeUrl($path)
   {
-    $url = URL::assemble(
+    $theme = Config::get('theming.theme');
+    $hotFile = sprintf('%s/hot', rtrim($theme, '/'));
+
+    if (File::disk('themes')->exists($hotFile)) {
+      $hotServer = trim(File::disk('themes')->get($hotFile));
+
+      if ($hotServer) {
+        return sprintf('%s/%s', rtrim($hotServer, '/'), ltrim($path, '/'));
+      }
+    }
+
+    $themePath = URL::assemble(
       Config::get('system.filesystems.themes.url'),
-      Config::get('theming.theme'),
+      $theme
+    );
+
+    $url = URL::assemble(
+      $themePath,
       $path
     );
+
     $url = URL::prependSiteUrl(
       $url,
       $this->get('locale', default_locale()),
       false
     );
-    // If user wants the url as an asbolute url
+
+    // If user wants the url as an absolute url
     if(!$this->getBool('absolute'))
     {
       $url = URL::makeRelative($url);
     }
+
     return $url;
   }
 
